@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "128104665698",
+    "firebase_url": "https://journally-b8693.firebaseio.com",
+    "project_id": "journally-b8693",
+    "storage_bucket": "journally-b8693.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128104665698:android:0cb2f0bdd6976519",
+        "android_client_info": {
+          "package_name": "com.android.muilat.journally"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128104665698-kk0ebkatgu1k2b2lmvanra57339jdoe3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.muilat.journally",
+            "certificate_hash": "753100d3ee0a268487a3070de0e16d8eff478953"
+          }
+        },
+        {
+          "client_id": "128104665698-kj4ouv8pndqu31a7kjdn0ku54a58pa29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANnM5W5Gp8odS8ILBXqcohDI4_4wUR5MY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128104665698-kj4ouv8pndqu31a7kjdn0ku54a58pa29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
