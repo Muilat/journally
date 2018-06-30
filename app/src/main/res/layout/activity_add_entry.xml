@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background"
     tools:context=".AddEntryActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/activity_vertical_margin">
 
-    <EditText
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Journal Title"
-        android:id="@+id/edtTxt_title"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Journal Description"
-        android:id="@+id/edtTxt_description"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add"
-        android:layout_margin="@dimen/fab_margin"
-        android:onClick="onAddButtonClick"
-        android:src="@drawable/add_accent"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/feelings_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp">
 
-</LinearLayout>
+        </android.support.v7.widget.RecyclerView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Journal Title"
+            android:id="@+id/edtTxt_title"
+            android:inputType="textCapWords"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Journal Description"
+            android:id="@+id/edtTxt_description"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:onClick="onAddButtonClick"
+            android:src="@drawable/add_accent"/>
+
+    </LinearLayout>
+
+</ScrollView>

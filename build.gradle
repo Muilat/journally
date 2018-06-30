@@ -19,6 +19,10 @@ buildscript {
 }
 
 allprojects {
+//    String osName = System.getPropert("os.name").toLowerCase()
+//    if(osName.contains("windows")){
+//        buildDir = "C:/tmp/${rootProject.name}/${projectName}"
+//    }
     repositories {
         google()
         jcenter()
@@ -26,3 +30,6 @@ allprojects {
     }
 }
 
+//task clean(type:Delete){
+//    delete rootProject.buildDir
+//}

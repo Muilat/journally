@@ -1,41 +1,47 @@
 package com.android.muilat.journally.data;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName = "journals")
 public class EntryClass {
 
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+    private String id;
+    private String user_id;
     private String title;
     private String description;
     private Date created_at;
 
-    @Ignore
+    public EntryClass(){}
+
     public EntryClass(String title, String description, Date created_at) {
         this.title = title;
         this.description = description;
         this.created_at = created_at;
     }
 
-    public EntryClass(long id, String title, String description, Date created_at) {
+    public EntryClass(String id, String title, String description, Date created_at) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.created_at = created_at;
 
+
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return user_id;
+    }
+
+    public void setUserId(String id) {
+        this.id = user_id;
     }
 
     public String getTitle() {

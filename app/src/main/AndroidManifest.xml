@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_journally"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_journally_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -18,6 +18,12 @@
         </activity>
         <activity android:name=".AddEntryActivity" />
         <activity android:name=".EntryDetailActivity"></activity>
+
+        <!-- exported = false limits access to this ContentProvider to only this app -->
+        <provider
+            android:name="com.android.muilat.journally.data.JournalContentProvider"
+            android:authorities="com.android.muilat.journally"
+            android:exported="false"/>
     </application>
 
 </manifest>

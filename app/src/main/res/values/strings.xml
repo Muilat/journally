@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Journally</string>
+    <string name="unknown_feeling">Unknown</string>
+    <string name="sad">Sad</string>
+    <string name="wink">Wink</string>
+    <string name="happy">Happy</string>
+    <string name="busy">Busy</string>
+    <string name="smile">Smile</string>
+    <string name="frown">Frown</string>
+    <string name="enter_journal_title">Enter the Journal Title</string>
+    <string name="select_icon">Select a feeling icon</string>
+    <string name="enter_journal_description">Enter the Journal Description</string>
+    <string name="added_succesful"> added to diary</string>
+    <string name="entry_updated">Journal entry updated</string>
+    <string name="journal_entry_detail">Journal Entry Detail</string>
+    <string name="edit_journal_entry">Edit Journal Entry</string>
+    <string name="add_newJounal_entry">Add New Journal Entry</string>
+
+
 </resources>
