@@ -107,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements
                         Uri uri = getContentResolver().insert(JournalContract.JournalEntry.CONTENT_URI, contentValues);
                         if(uri != null) {
                             Toast.makeText(getBaseContext(), "Deletion undone", Toast.LENGTH_LONG).show();
+                            getSupportLoaderManager().restartLoader(JOURNAL_LOADER_ID, null, MainActivity.this);
+
                         }
 
                     }
