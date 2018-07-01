@@ -1,19 +1,17 @@
 package com.android.muilat.journally;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
-import com.android.muilat.journally.data.EntryClass;
 import com.android.muilat.journally.data.JournalContract;
 import com.android.muilat.journally.utils.JournalUtils;
 
@@ -36,19 +34,18 @@ public class EntryDetailActivity extends AppCompatActivity {
         tv_date = findViewById(R.id.tv_date);
         iv_feelings = findViewById(R.id.iv_detail_feelings);
 
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setTitle(R.string.journal_entry_detail+"");
+        getSupportActionBar().setTitle(R.string.journal_entry_detail);
 
 
 
     }
 
-    private void getJournal(Intent intent) {
+    private void getJournal() {
+
+        Intent intent = getIntent();
+
         if(intent != null && intent.hasExtra(EXTRA_JOURNAL_ID)){
-            mJournalId = intent.getIntExtra(EXTRA_JOURNAL_ID,DEFAULT_ID);
-            String stringId = Long.toString(mJournalId);
-            Uri uri = JournalContract.JournalEntry.CONTENT_URI;
-            uri = uri.buildUpon().appendPath(stringId).build();
+            Uri uri = buildUri(intent);
 
             // query a single row of data using a ContentResolver
             Cursor mCursor = getContentResolver().query(uri,null,null,null,null);
@@ -71,11 +68,19 @@ public class EntryDetailActivity extends AppCompatActivity {
         }
     }
 
+    private Uri buildUri(Intent intent) {
+        mJournalId = intent.getIntExtra(EXTRA_JOURNAL_ID,DEFAULT_ID);
+        String stringId = Long.toString(mJournalId);
+        Uri uri = JournalContract.JournalEntry.CONTENT_URI;
+        uri = uri.buildUpon().appendPath(stringId).build();
+        return uri;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        Intent intent = getIntent();
-        getJournal(intent);
+
+        getJournal();
     }
 
     public void onEditFabClick(View view) {
@@ -84,4 +89,16 @@ public class EntryDetailActivity extends AppCompatActivity {
         journalDetailIntent.putExtra(EntryDetailActivity.EXTRA_JOURNAL_ID, mJournalId);
         startActivity(journalDetailIntent);
     }
+
+    public void onDeleteFabClick(View view) {
+        Intent intent = getIntent();
+
+        Uri uri = buildUri(intent);
+        getContentResolver().delete(uri, null, null);
+        Toast.makeText(this, R.string.journal_entry_deleted, Toast.LENGTH_SHORT).show();
+        Intent mainActivityIntent = new Intent(EntryDetailActivity.this, MainActivity.class);
+        startActivity(mainActivityIntent);
+    }
+
+
 }

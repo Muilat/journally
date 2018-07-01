@@ -18,8 +18,8 @@
             android:text="@string/sign_in"
             android:onClick="onSignInButtonClick"
             android:id="@+id/sign_in"
-            android:background="@color/colorAccent"
-            android:textColor="@color/colorPrimaryDark"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="#ffffff"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
         <TextView
             android:layout_width="match_parent"

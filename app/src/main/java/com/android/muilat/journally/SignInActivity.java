@@ -2,6 +2,7 @@ package com.android.muilat.journally;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Process;
 import android.support.annotation.MainThread;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,13 +31,14 @@ public class SignInActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if(currentUser != null){
-            startActivity(SignInActivity.createIntent(this));
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+//            startActivity(SignInActivity.createIntent(this));
 
-            finish();
             return;
+        }else {
+            signInUI();
         }
-
-        signInUI();
     }
 
     @Override
@@ -101,6 +103,15 @@ public class SignInActivity extends AppCompatActivity {
 
     public void onSignInButtonClick(View view){
         signInUI();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
 

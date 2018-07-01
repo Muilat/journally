@@ -1,12 +1,11 @@
 package com.android.muilat.journally;
 
-import android.app.ActionBar;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.android.muilat.journally.data.EntryClass;
 import com.android.muilat.journally.data.JournalContract;
 
 import java.util.Date;
@@ -112,8 +109,8 @@ public class AddEntryActivity extends AppCompatActivity {
         // Insert the content values via a ContentResolver
         Intent intent = getIntent();
         if(intent != null && intent.hasExtra(EXTRA_JOURNAL_ID)) {
-//            ActionBar actionBar = getActionBar();
-//            actionBar.setTitle(R.string.edit_journal_entry+"");
+
+            getSupportActionBar().setTitle(R.string.edit_journal_entry);
 
             // Build appropriate uri with String row id appended
             String stringId = Long.toString(mJournalId);
@@ -127,8 +124,7 @@ public class AddEntryActivity extends AppCompatActivity {
         }
         else {
 
-//            ActionBar actionBar = getActionBar();
-//            actionBar.setTitle(R.string.add_newJounal_entry+"");
+            getSupportActionBar().setTitle(R.string.add_newJounal_entry);
 
 
             contentValues.put(JournalContract.JournalEntry.COLUMN_DATE, created_at.getTime());

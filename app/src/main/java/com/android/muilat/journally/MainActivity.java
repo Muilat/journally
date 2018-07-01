@@ -1,20 +1,16 @@
 package com.android.muilat.journally;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -24,14 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
-
-import com.android.muilat.journally.data.EntryClass;
 import com.android.muilat.journally.data.JournalContract;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -46,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements
     private EntryListAdapter mAdapter;
     RecyclerView mRecyclerView;
 	
-	FirebaseAuth mFirebaseAuth;
-	FirebaseAuth.AuthStateListener mAuthStateListener;
 
 
     @Override
@@ -55,8 +43,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-		mFirebaseAuth = FirebaseAuth.getInstance();
-		
+
 		// Set the RecyclerView to its corresponding view
         mRecyclerView =  findViewById(R.id.journals_list_recycler_view);
 
@@ -91,7 +78,41 @@ public class MainActivity extends AppCompatActivity implements
                 Uri uri = JournalContract.JournalEntry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(stringId).build();
 
+                //get entry incase of undo
+                 final Cursor toDeleteCursor = getContentResolver().query(uri,null,null,null,null);
+                toDeleteCursor.moveToNext();
+                final String journal_title = toDeleteCursor.getString(toDeleteCursor.getColumnIndex(JournalContract.JournalEntry.COLUMN_TITLE));
+
+                 //delete
                 getContentResolver().delete(uri, null, null);
+                Snackbar snackbar = Snackbar.make(mRecyclerView, journal_title+ "deleted from favorites!", Snackbar.LENGTH_LONG);
+                snackbar.setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //resave the item to db
+
+
+                        String journal_description = toDeleteCursor.getString(toDeleteCursor.getColumnIndex(JournalContract.JournalEntry.COLUMN_DESCRIPTION));
+                        int journal_feelings = toDeleteCursor.getInt(toDeleteCursor.getColumnIndex(JournalContract.JournalEntry.COLUMN_FEELINGS));
+                        long journal_date = toDeleteCursor.getLong(toDeleteCursor.getColumnIndex(JournalContract.JournalEntry.COLUMN_DATE));
+
+                        ContentValues contentValues = new ContentValues();
+                        // Put the journal  into the ContentValues
+                        contentValues.put(JournalContract.JournalEntry.COLUMN_DESCRIPTION, journal_description);
+                        contentValues.put(JournalContract.JournalEntry.COLUMN_TITLE, journal_title);
+                        contentValues.put(JournalContract.JournalEntry.COLUMN_FEELINGS, journal_feelings);
+                        contentValues.put(JournalContract.JournalEntry.COLUMN_DATE, journal_date);
+
+                        // Insert the content values via a ContentResolver
+                        Uri uri = getContentResolver().insert(JournalContract.JournalEntry.CONTENT_URI, contentValues);
+                        if(uri != null) {
+                            Toast.makeText(getBaseContext(), "Deletion undone", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+                snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                snackbar.show();
 
                 getSupportLoaderManager().restartLoader(JOURNAL_LOADER_ID, null, MainActivity.this);
 
@@ -105,29 +126,6 @@ public class MainActivity extends AppCompatActivity implements
          */
         getSupportLoaderManager().initLoader(JOURNAL_LOADER_ID, null, this);
 		
-//		mAuthStateListener = new FirebaseAuth.AuthStateListener(){
-//			@Override
-//			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
-//				FirebaseUser user = firebaseAuth.getCurrentUser();
-//				if(user != null ){
-//					//set d adapter
-//
-////					mRecyclerView.setAdapter(mAdapter);
-//				}
-//				else{
-////					mRecyclerView.c;
-////					List<AuthUI.IdpConfig> selectedProviders = new ArrayList<>();
-////					selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
-////					selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
-////					startActivityForResult(
-////						AuthUI.getInstance().createSignInIntentBuilder()
-////								.setIsSmartLockEnabled(true)
-////								.setProviders(selectedProviders)
-////								.build(),
-////						RC_SIGN_IN);
-//				}
-//			}
-//		};
 
     }
 
@@ -139,37 +137,6 @@ public class MainActivity extends AppCompatActivity implements
         startActivity(addJournalIntent);
     }
 
-//	@MainThread
-//    private void handleSignInResponse(int resultCode, Intent data) {
-//        IdpResponse response = IdpResponse.fromResultIntent(data);
-//        Toast toast;
-//        // Successfully signed in
-//        if (resultCode == ResultCodes.OK) {
-//            startActivity(MainActivity.createIntent(this, response));
-//            finish();
-//            return;
-//        } else {
-//            // Sign in failed
-//            if (response == null) {
-//                // User pressed back button
-//                toast = Toast.makeText(this, "Sign in was cancelled!", Toast.LENGTH_LONG);
-//                toast.show();
-//                return;
-//            }
-//            if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
-//                toast = Toast.makeText(this, "You have no internet connection", Toast.LENGTH_LONG);
-//                toast.show();
-//                return;
-//            }
-//            if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-//                toast = Toast.makeText(this, "Unknown Error!", Toast.LENGTH_LONG);
-//                toast.show();
-//                return;
-//            }
-//        }
-//        toast = Toast.makeText(this, "Unknown Error!", Toast.LENGTH_LONG);
-//        toast.show();
-//    }
 
     public static Intent createIntent(Context context) {
         Intent in = new Intent();
@@ -181,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
 
-//		mAuthStateListener.addAuthStateListener(mAuthStateListener);
         // re-queries for all journals
         getSupportLoaderManager().restartLoader(JOURNAL_LOADER_ID, null, this);
     }
@@ -189,8 +155,7 @@ public class MainActivity extends AppCompatActivity implements
 	@Override
     protected void onPause() {
         super.onPause();
-//		if(mAuthStateListener != null)
-//			mAuthStateListener.removeAuthStateListener(mAuthStateListener);
+
 //
     }
 	
@@ -235,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements
                             null,
                             null,
                             null,
-                            JournalContract.JournalEntry.COLUMN_DATE);
+                            JournalContract.JournalEntry.COLUMN_DATE+" DESC");
 
                 } catch (Exception e) {
                     Log.e(TAG, "Failed to asynchronously load data.");
@@ -291,9 +256,9 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_sign_out:
-                mFirebaseAuth.signOut();
+                FirebaseAuth.getInstance().signOut();
+//                AuthUI.getInstance().signOut(this);
                 startActivity(SignInActivity.createIntent(this));
 
                 return true;

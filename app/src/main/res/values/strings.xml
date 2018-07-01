@@ -18,6 +18,7 @@
     <string name="sign_in">Sign In</string>
     <string name="to_continue">to continue...</string>
     <string name="action_sign_out">Sign Out</string>
+    <string name="journal_entry_deleted">Journal Entry deleted</string>
 
 
 </resources>
