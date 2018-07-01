@@ -10,20 +10,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".AddEntryActivity" />
+        <activity android:name=".EntryDetailActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddEntryActivity" />
-        <activity android:name=".EntryDetailActivity"></activity>
 
         <!-- exported = false limits access to this ContentProvider to only this app -->
         <provider
-            android:name="com.android.muilat.journally.data.JournalContentProvider"
+            android:name=".data.JournalContentProvider"
             android:authorities="com.android.muilat.journally"
-            android:exported="false"/>
+            android:exported="false" />
+
+
     </application>
 
 </manifest>

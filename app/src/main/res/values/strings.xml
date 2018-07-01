@@ -15,6 +15,9 @@
     <string name="journal_entry_detail">Journal Entry Detail</string>
     <string name="edit_journal_entry">Edit Journal Entry</string>
     <string name="add_newJounal_entry">Add New Journal Entry</string>
+    <string name="sign_in">Sign In</string>
+    <string name="to_continue">to continue...</string>
+    <string name="action_sign_out">Sign Out</string>
 
 
 </resources>

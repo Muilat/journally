@@ -19,6 +19,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -103,29 +105,29 @@ public class MainActivity extends AppCompatActivity implements
          */
         getSupportLoaderManager().initLoader(JOURNAL_LOADER_ID, null, this);
 		
-		mAuthStateListener = new FirebaseAuth.AuthStateListener(){
-			@Override
-			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
-				FirebaseUser user = firebaseAuth.getCurrentUser();
-				if(user != null ){
-					//set d adapter
-					
-//					mRecyclerView.setAdapter(mAdapter);
-				}
-				else{
-//					mRecyclerView.c;
-//					List<AuthUI.IdpConfig> selectedProviders = new ArrayList<>();
-//					selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
-//					selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
-//					startActivityForResult(
-//						AuthUI.getInstance().createSignInIntentBuilder()
-//								.setIsSmartLockEnabled(true)
-//								.setProviders(selectedProviders)
-//								.build(),
-//						RC_SIGN_IN);
-				}
-			}
-		};
+//		mAuthStateListener = new FirebaseAuth.AuthStateListener(){
+//			@Override
+//			public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth){
+//				FirebaseUser user = firebaseAuth.getCurrentUser();
+//				if(user != null ){
+//					//set d adapter
+//
+////					mRecyclerView.setAdapter(mAdapter);
+//				}
+//				else{
+////					mRecyclerView.c;
+////					List<AuthUI.IdpConfig> selectedProviders = new ArrayList<>();
+////					selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
+////					selectedProviders.add(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
+////					startActivityForResult(
+////						AuthUI.getInstance().createSignInIntentBuilder()
+////								.setIsSmartLockEnabled(true)
+////								.setProviders(selectedProviders)
+////								.build(),
+////						RC_SIGN_IN);
+//				}
+//			}
+//		};
 
     }
 
@@ -277,5 +279,27 @@ public class MainActivity extends AppCompatActivity implements
         mAdapter.swapCursor(null);
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy data" menu option
+            case R.id.action_sign_out:
+                mFirebaseAuth.signOut();
+                startActivity(SignInActivity.createIntent(this));
+
+                return true;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
